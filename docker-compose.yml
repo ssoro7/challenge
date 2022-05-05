@@ -1,0 +1,20 @@
+version: "2"
+services:
+  product-review:
+    build:
+      context: ./product_review/
+      dockerfile: Dockerfile
+    image: product-review
+    container_name: product-review
+    ports:
+      - "8081:8081"
+  product-service:
+    build:
+      context: ./product_service/
+      dockerfile: Dockerfile
+    image: product-service
+    container_name: product-service
+    ports:
+      - "8080:8080"
+    environment:
+      - REVIEW_SERVICE_URL=http://product-review-service:8081
