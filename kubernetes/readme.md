@@ -17,7 +17,7 @@ RollingUpdate (Ramped - slow rollout)
 
 Here are also some configurations that improve the resiliency of the product-service application.
 - deployment.yaml – livenessProbe for failure tolerant, resource limitation.
-- hpa.yaml - It scale according to demand in high-load moments
+- hpa.yaml - It scale according to demand in high-load moments.
 - ingress.yaml - for access to the product-service by domain from out-side.
 
 
