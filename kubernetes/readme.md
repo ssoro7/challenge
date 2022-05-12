@@ -4,8 +4,8 @@
 - linux virtual machine for execute the bash scripts
 - Minikube v1.25.1 or higher installed for deploying the container
 - Docker version 20.10.5 or higher installed
-- metric server
-- Ingress module
+- metric server https://docs.aws.amazon.com/eks/latest/userguide/metrics-server.html
+- Ingress module https://kubernetes.github.io/ingress-nginx/deploy/#minikube
 &nbsp;
 
 ## Solution
