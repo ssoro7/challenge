@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Optional;
+
 import com.adidas.productservice.dto.ProductReview;
 
 @Component
@@ -29,18 +31,24 @@ public class ProductReviewClient {
         final ResponseEntity<ProductReview> response = restTemplate.exchange(
             productReviewServiceUrl, HttpMethod.GET, null, ProductReview.class, productId);
         LOG.info("Product Review Service response:{}", response.getStatusCode());
-        //request result. 502 Bad Gateway (could be)
-        //response.getStatusCode().isError();
+
+        ProductReview review = new ProductReview(productId, 0, 0);
         //check for null response
-        return response.getBody();
+        if (response.getBody() != null) {
+          review = response.getBody();
+        }
+        else {
+          LOG.warn("Null product review response");
+        }
+        return review;
     } 
     catch (final RestClientException restClientException) {
       LOG.error("{} when calling Product Review Service, the service is down", restClientException.getMessage());
-      return new ProductReview(productId, 0, -1);
+      return new ProductReview(productId, 0, 0);
     }
     catch (final Exception exception) {
-        LOG.error("{} when calling Product Review Service", exception.getMessage());
-        throw new RuntimeException(exception);
+        LOG.error("{} Critical exception calling Product Review Service", exception.getMessage());
+        return new ProductReview(productId, 0, 0);
     }
   }
 }
