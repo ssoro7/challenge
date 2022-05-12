@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service-production
+  labels:
+    app: product-service
+    role: $TARGET_ROLE
+    env: prod
+spec:
+  ports:
+    # the port that this service should serve on
+  - name: http
+    port: 8080
+    targetPort: 8080
+    nodePort: $NODE_PORT_PUBLIC
+  selector:
+    app: product-service
+    role: $TARGET_ROLE
+  type: NodePort

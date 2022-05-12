@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service
+  labels:
+    app: product-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: product-service
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: product-service
+    spec:
+      containers:
+        - name:  product-service
+          image: teruyi/product-service:$VERSION
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: REVIEW_SERVICE_URL
+              value: $REVIEW_SERVICE_URL
+          resources:
+            limits:
+               cpu: 500m
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: liveness-port
+            failureThreshold: 1
+            periodSeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%

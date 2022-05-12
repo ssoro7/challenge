@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-review
+  labels:
+    app: product-review
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-review
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: product-review
+    spec:
+      containers:
+        - name:  product-review
+          image: teruyi/product-review:1.0.0
+          ports:
+            - name: http
+              containerPort: 8081
+              protocol: TCP

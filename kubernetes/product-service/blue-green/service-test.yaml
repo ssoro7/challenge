@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service-test-$TARGET_ROLE
+  labels:
+    app: product-service-test-$TARGET_ROLE
+    role: test-$TARGET_ROLE
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+    nodePort: $NODE_PORT_TEST
+  selector:
+    app: product-service
+    role: $TARGET_ROLE
+  type: NodePort
